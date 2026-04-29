@@ -99,6 +99,18 @@ curl -X GET "http://localhost:8081/usuario?email=joao@email.com" \
   -H "Authorization: Bearer <seu-token>"
 ```
 
+## Demos
+
+### Swagger UI
+
+![Swagger UI](src/img/swagger.jpeg)
+
+### Requisições HTTP
+
+![Requisição HTTP - Cadastro e Login](src/img/requestHTTPie.jpeg)
+
+![Requisição HTTP - Busca com Token JWT](src/img/requestHTTPie1.jpeg)
+
 ## Documentação de Arquitetura
 
 Consulte o diretório [docs/](docs/) para documentação detalhada:

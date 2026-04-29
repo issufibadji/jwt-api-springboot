@@ -5,8 +5,10 @@ import com.issufibadji.aprendendospring.controller.dtos.UsuarioDTO;
 import com.issufibadji.aprendendospring.infrastructure.entity.Usuario;
 import com.issufibadji.aprendendospring.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +29,16 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsuarioDTO usuarioDTO){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
-                        usuarioDTO.getSenha())
-        );
-        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDTO usuarioDTO){
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
+                            usuarioDTO.getSenha())
+            );
+            return ResponseEntity.ok("Bearer " + jwtUtil.generateToken(authentication.getName()));
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos");
+        }
     }
 
     @GetMapping
